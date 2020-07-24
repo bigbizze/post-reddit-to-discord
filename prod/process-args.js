@@ -20,34 +20,33 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const process = __importStar(require("process"));
-const process_args = () => {
+const top_types = ["new", "controversial", "rising", "day", "week", "month", "year", "all"];
+const processArgs = () => {
     const args = {
         subreddit: "programmerhumor",
-        num_posts: 20,
+        count: 20,
         min_karma: 10000,
         num_days: 0,
-        webhook_url: null,
-        only_top_posts: false
+        num_embeds: 5,
+        webhook: null,
+        type: "day"
     };
     try {
         let currentArg = null;
         for (let arg of process.argv) {
             if (arg.startsWith("--")) {
-                const parsed_arg = arg.replace(/^--/, "");
-                if (parsed_arg === "only_top_posts") {
-                    args.only_top_posts = true;
-                    currentArg = null;
-                }
-                else {
-                    currentArg = parsed_arg;
-                }
+                currentArg = arg.replace(/^--/, "");
             }
             else if (currentArg != null) {
-                if (currentArg !== "num_posts" && currentArg !== "num_days" && currentArg !== "min_karma") {
-                    args[currentArg] = arg;
+                if (currentArg === "count" || currentArg === "num_days" || currentArg === "num_embeds" || currentArg === "min_karma") {
+                    args[currentArg] = Number(arg);
                 }
                 else {
-                    args[currentArg] = Number(arg);
+                    if (currentArg === "sorting_type" && !top_types.includes(arg)) {
+                        console.log("incorrect sorting type supplied! 'day' selected instead");
+                        currentArg = "day";
+                    }
+                    args[currentArg] = arg;
                 }
                 currentArg = null;
             }
@@ -58,4 +57,4 @@ const process_args = () => {
     }
     return args;
 };
-exports.default = process_args;
+exports.default = processArgs;

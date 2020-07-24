@@ -10,20 +10,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
-function makeEmbed(post) {
+function makeEmbed(post, subreddit) {
     return __awaiter(this, void 0, void 0, function* () {
         return new discord_js_1.MessageEmbed()
             .setColor('#0099ff')
             .setTitle(post.title)
             .setURL(post.img_url)
             .setAuthor(post.author)
-            .addFields({ name: 'Upvotes', value: `${post.upvotes}` }, { name: 'Created On', value: `${post.created_on}` }, { name: 'Comments', value: `[click here](${post.reddit_url})`, inline: true })
+            .addFields({ name: 'Subreddit', value: `${subreddit}` }, { name: 'Upvotes', value: `${post.upvotes}` }, { name: 'Created On', value: `${post.created_on}` }, { name: 'Comments', value: `[click here](${post.reddit_url})`, inline: true })
             .setImage(post.img_url);
     });
 }
-function makeEmbeds(posts) {
+function makeEmbeds(posts, subreddit) {
     return __awaiter(this, void 0, void 0, function* () {
-        return Promise.all(posts.map((post) => __awaiter(this, void 0, void 0, function* () { return yield makeEmbed(post); })));
+        return Promise.all(posts.map((post) => __awaiter(this, void 0, void 0, function* () { return yield makeEmbed(post, subreddit); })));
     });
 }
 exports.default = makeEmbeds;

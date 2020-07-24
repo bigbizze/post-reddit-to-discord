@@ -1,11 +1,27 @@
-import { ParseRedditResponse, RedditResponse } from './response_types';
+import { ParseRedditResponse, RedditResponse } from './response-types';
 import fetch from 'node-fetch';
 import { subDays, isAfter, startOfToday } from 'date-fns';
-import { ProcessArgs } from "../process_args";
+import { ProcessArgs, StandardType, TopType } from "../process-args";
 
-async function getRedditPosts(subreddit: string, num_posts: number = 20, only_top_posts: boolean = true): Promise<RedditResponse | undefined> {
-	const url = only_top_posts ? `https://reddit.com/r/${subreddit}/top/.json?count=${num_posts}` : `https://reddit.com/r/${subreddit}.json?count=${num_posts}`;
+const topTypes = ["day", "week", "month", "all"];
+
+const isTopType = (type: TopType | StandardType): type is TopType =>
+	topTypes.includes(type);
+
+const getTopTypeUrl = (subreddit: string, top_type: "day" | "week" | "month" | "all", num_posts: number) =>
+	`https://reddit.com/r/${subreddit}/top/.json?sort=top&t=${top_type}&count=${num_posts}`;
+
+const getNormalTypeUrl = (subreddit: string, type: "new" | "controversial" | "rising" | "default", num_posts: number) =>
+	`https://reddit.com/r/${subreddit}/${type}/.json?count=${num_posts}`;
+
+const getUrl = ({ type, subreddit, count }: ProcessArgs) =>
+	isTopType(type)
+		? getTopTypeUrl(subreddit, type, count)
+		: getNormalTypeUrl(subreddit, type, count);
+
+async function getRedditPosts(args: ProcessArgs): Promise<RedditResponse | undefined> {
 	try {
+		const url = getUrl(args);
 		const res = await fetch(url, {
 			method: "GET"
 		});
@@ -28,19 +44,21 @@ export interface RedditReturn {
 	upvotes: number;
 }
 
-export default async function parseTopRedditPosts({ num_days, subreddit, num_posts, min_karma, only_top_posts }: ProcessArgs): Promise<RedditReturn[] | undefined> {
+export default async function parseTopRedditPosts(args: ProcessArgs): Promise<RedditReturn[] | undefined> {
 	try {
-		const data = await getRedditPosts(subreddit, num_posts, only_top_posts);
+		const { num_days, min_karma, num_embeds } = args;
+		const data = await getRedditPosts(args);
 		if (data?.data?.children == null || data.data.children.length < 1) {
 			return;
 		}
 		const startOfDay = startOfToday();
 		const is_after_this = subDays(startOfDay, num_days);
 		return data.data.children
-				   .filter(post => (
+				   .filter((post, i) => (
 					   post.data.score > min_karma
 					   && post.data.post_hint === "image"
 					   && isAfter(new Date(post.data.created * 1000), is_after_this)
+					   && i < num_embeds
 				   ))
 				   .map((post): RedditReturn => ({
 					   title: post.data.title,

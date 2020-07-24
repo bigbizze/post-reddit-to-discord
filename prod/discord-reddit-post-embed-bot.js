@@ -32,12 +32,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const process = __importStar(require("process"));
-const bot_client_1 = __importDefault(require("./bot-client"));
-const process_args_1 = __importDefault(require("./process_args"));
+const process_args_1 = __importDefault(require("./process-args"));
+const parse_reddit_posts_1 = __importDefault(require("./reddit/parse-reddit-posts"));
+const webhook_1 = __importDefault(require("./discord/webhook"));
+const make_embeds_1 = __importDefault(require("./discord/make-embeds"));
+function getItems(args) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const reddit_posts = yield parse_reddit_posts_1.default(args);
+        if (reddit_posts == null || (args === null || args === void 0 ? void 0 : args.webhook) == null) {
+            return;
+        }
+        const webhook = yield webhook_1.default(args.webhook);
+        if (webhook == null) {
+            return;
+        }
+        return {
+            reddit_posts,
+            webhook
+        };
+    });
+}
+function postEmbedsFromRedditPosts(args) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const bot_items = yield getItems(args);
+        if (bot_items == null) {
+            return;
+        }
+        const { webhook, reddit_posts } = bot_items;
+        const embeds = yield make_embeds_1.default(reddit_posts, args.subreddit);
+        for (let i = 0; i < embeds.length; i++) {
+            yield webhook.send(embeds[i]);
+        }
+    });
+}
 function app() {
     return __awaiter(this, void 0, void 0, function* () {
         const args = process_args_1.default();
-        yield bot_client_1.default(args);
+        yield postEmbedsFromRedditPosts(args);
         process.exit(0);
     });
 }
