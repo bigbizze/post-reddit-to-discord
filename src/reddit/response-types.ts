@@ -1,8 +1,4 @@
-// To parse this data:
-//
-//   import { Convert, RedditResponse } from "./file";
-//
-//   const welcome = Convert.toWelcome(json);
+// Generated
 
 export interface RedditResponse {
 	kind: string;

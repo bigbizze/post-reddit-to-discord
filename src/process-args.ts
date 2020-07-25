@@ -1,6 +1,7 @@
 import commandLineArgs from "command-line-args";
 export type TopType = "day" | "week" | "month" | "all";
 export type StandardType = "new" | "controversial" | "rising" | "default";
+
 export interface ProcessArgs  {
     subreddit: string
     count: number
