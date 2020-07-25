@@ -17,7 +17,7 @@ Argument | Example | Functionality | Default | Is Required
 --num_embeds | 15 | The total number of discord messages with embeds to create | 5 | No
 
 ```
-node prod/discord-reddit-post-embed.js --subreddit programmerhumor --min_karma -5000 --type new --num_embeds 2 --count 2 --num_days 0 --type controversial --webhook https://discordapp.com/api/webhooks/some_num/some_id
+node prod/discord-reddit-post-embed.js --subreddit programmerhumor --min_karma -5000 --num_embeds 2 --count 2 --num_days 0 --type controversial --webhook https://discordapp.com/api/webhooks/some_num/some_id
 ```
 
 # NOTE: "num_posts" is the "count" argument for reddit, this is NOT the number of embeds that will be created.
