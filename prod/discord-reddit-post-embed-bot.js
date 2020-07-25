@@ -65,16 +65,16 @@ function postEmbedsFromRedditPosts(args) {
         }
     });
 }
-function app() {
+function discord_reddit_post_embed_bot(args) {
     return __awaiter(this, void 0, void 0, function* () {
-        const args = process_args_1.default();
-        yield postEmbedsFromRedditPosts(args);
-        process.exit(0);
+        return postEmbedsFromRedditPosts(args);
     });
 }
-try {
-    app().then();
-}
-catch (e) {
-    console.log(e);
+exports.default = discord_reddit_post_embed_bot;
+//////////////////////////////////////////////////////////////////////////////////
+if (require.main === module) {
+    const args = process_args_1.default();
+    discord_reddit_post_embed_bot(args)
+        .then(() => process.exit(0))
+        .catch(err => console.log(err));
 }

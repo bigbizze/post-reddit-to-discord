@@ -5,7 +5,6 @@ import parseTopRedditPosts, { RedditReturn } from "./reddit/parse-reddit-posts";
 import get_webhook from "./discord/webhook";
 import makeEmbeds from "./discord/make-embeds";
 
-
 async function getItems(args: ProcessArgs): Promise<{ webhook: WebhookClient; reddit_posts: RedditReturn[] } | undefined> {
     const reddit_posts = await parseTopRedditPosts(args);
     if (reddit_posts == null || args?.webhook == null) {
@@ -33,14 +32,17 @@ async function postEmbedsFromRedditPosts(args: ProcessArgs) {
     }
 }
 
-async function app() {
-    const args = processArgs();
-    await postEmbedsFromRedditPosts(args);
-    process.exit(0);
+export default async function discord_reddit_post_embed_bot(args: ProcessArgs) {
+    return postEmbedsFromRedditPosts(args);
 }
 
-try {
-    app().then();
-} catch (e) {
-    console.log(e);
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+if (require.main === module) {
+    const args: ProcessArgs = processArgs();
+    discord_reddit_post_embed_bot(args)
+        .then(() => process.exit(0))
+        .catch(err => console.log(err));
 }

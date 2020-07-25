@@ -14,9 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const node_fetch_1 = __importDefault(require("node-fetch"));
-function get_type_from_json(value) {
-    return JSON.parse(value);
-}
 function get_webhook_info(webhook_url) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -24,9 +21,8 @@ function get_webhook_info(webhook_url) {
                 method: "GET"
             });
             if (res.status === 200) {
-                console.log();
                 const json_string = (yield res.buffer()).toString("utf-8");
-                return get_type_from_json(json_string);
+                return JSON.parse(json_string);
             }
         }
         catch (e) {

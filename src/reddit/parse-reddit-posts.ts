@@ -46,13 +46,13 @@ export interface RedditReturn {
 
 export default async function parseTopRedditPosts(args: ProcessArgs): Promise<RedditReturn[] | undefined> {
 	try {
-		const { num_days, min_karma, num_embeds } = args;
+		const { age, min_karma, num_embeds } = args;
 		const data = await getRedditPosts(args);
 		if (data?.data?.children == null || data.data.children.length < 1) {
 			return;
 		}
 		const startOfDay = startOfToday();
-		const is_after_this = subDays(startOfDay, num_days);
+		const is_after_this = subDays(startOfDay, age);
 		return data.data.children
 				   .filter((post, i) => (
 					   post.data.score > min_karma
