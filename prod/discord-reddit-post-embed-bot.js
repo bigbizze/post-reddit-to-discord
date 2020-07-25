@@ -71,6 +71,7 @@ function discord_reddit_post_embed_bot(args) {
     });
 }
 exports.default = discord_reddit_post_embed_bot;
+
 //////////////////////////////////////////////////////////////////////////////////
 if (require.main === module) {
     const args = process_args_1.default();

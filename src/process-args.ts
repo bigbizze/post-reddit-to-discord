@@ -28,7 +28,7 @@ export default function processArgs (): ProcessArgs {
             subreddit: "programmerhumor",
             count: 20,
             min_karma: 7000,
-            age: 0,
+            age: 1,
             num_embeds: 5,
             webhook: null,
             type: "day"

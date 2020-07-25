@@ -1,7 +1,7 @@
 {
   "name": "discord-programmer-humour-bot",
   "version": "0.0.1",
-  "main": "prod/index.js",
+  "main": "prod/discord-reddit-post-embed-bot.js",
   "license": "MIT",
   "private": false,
   "dependencies": {

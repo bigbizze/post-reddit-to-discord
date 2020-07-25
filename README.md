@@ -12,7 +12,7 @@ Argument | Example | Functionality | Default | Is Required
 --subreddit   | hockey | Specify which subreddit to create embeds from | programmerhumor | No
 --count   | 15 | How many posts should be considered (this may be limited by reddit itself) | 20 | No
 --min_karma   | 500 | The minimum karma cut-off for posts | 10000 | No
---age   | 2 | Maximum days in age for posts (0 is one day) | 0 | No
+--age   | 2 | Maximum days in age for posts (1 is only from the last day) | 0 | No
 --type   | controversial | The type of posts to consider, valid answers are new, controversial, rising, day, "week, month, year, or all | day | No
 --num_embeds | 15 | The total number of discord messages with embeds to create | 5 | No
 
