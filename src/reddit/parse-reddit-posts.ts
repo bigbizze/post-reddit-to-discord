@@ -51,8 +51,7 @@ export default async function parseTopRedditPosts(args: ProcessArgs): Promise<Re
 		if (data?.data?.children == null || data.data.children.length < 1) {
 			return;
 		}
-		const startOfDay = startOfToday();
-		const is_after_this = subDays(startOfDay, age);
+		const is_after_this = subDays(Date.now(), age);
 		return data.data.children
 				   .filter((post, i) => (
 					   post.data.score > min_karma
