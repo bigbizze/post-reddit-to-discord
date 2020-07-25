@@ -48,8 +48,7 @@ function parseTopRedditPosts(args) {
             if (((_a = data === null || data === void 0 ? void 0 : data.data) === null || _a === void 0 ? void 0 : _a.children) == null || data.data.children.length < 1) {
                 return;
             }
-            const startOfDay = date_fns_1.startOfToday();
-            const is_after_this = date_fns_1.subDays(startOfDay, age);
+            const is_after_this = date_fns_1.subDays(Date.now(), age);
             return data.data.children
                 .filter((post, i) => (post.data.score > min_karma
                 && post.data.post_hint === "image"

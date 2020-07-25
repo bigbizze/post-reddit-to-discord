@@ -1,9 +1,5 @@
 "use strict";
-// To parse this data:
-//
-//   import { Convert, RedditResponse } from "./file";
-//
-//   const welcome = Convert.toWelcome(json);
+// Generated
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ParseRedditResponse = exports.Kind = exports.SubredditType = exports.SubredditNamePrefixed = exports.SubredditID = exports.Subreddit = exports.PostHint = exports.WhitelistStatus = exports.LinkFlairText = exports.LinkFlairCSSClass = exports.Domain = exports.AuthorFlairType = exports.FlairTextColor = exports.E = exports.AuthorFlairBackgroundColor = void 0;
 var AuthorFlairBackgroundColor;
