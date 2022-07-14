@@ -36,8 +36,11 @@
     "typescript": "^3.9.5"
   },
   "scripts": {
+    "postinstall": "tsc",
+    "lint": "tslint src/**/*.ts --fix",
     "start": "python util-scripts/FixWebpackServerError.py && python build_production_webpack.py",
     "clean": "rimraf node_modules && yarn cache clean && yarn install",
     "kill": "taskkill /f /im node.exe"
-  }
+  },
+  "devDependencies": {}
 }
